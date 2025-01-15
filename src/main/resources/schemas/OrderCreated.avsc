@@ -1,0 +1,27 @@
+{
+  "type": "record",
+  "name": "OrderCreated",
+  "namespace": "com.social.ecom.order.avro",
+  "fields": [
+    {"name": "orderId", "type": "string"},
+    {"name": "customerId", "type": "string"},
+    {
+      "name": "items",
+      "type": {
+        "type": "array",
+        "items": {
+          "type": "record",
+          "name": "OrderItem",
+          "fields": [
+            {"name": "itemId", "type": "string"},
+            {"name": "quantity", "type": "int"},
+            {"name": "price", "type": "float"}
+          ]
+        }
+      }
+    },
+    {"name": "totalAmount", "type": "float"},
+    {"name": "orderDate", "type": "string"},
+    {"name": "status", "type": "string"}
+  ]
+}

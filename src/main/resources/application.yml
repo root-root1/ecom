@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: ecom
+  datasource:
+    url: jdbc:postgresql://localhost:5432/ecom
+    username: postgres
+    password: password
+    driver-class-name: org.postgresql.Driver
+  jdbc:
+    template:
+      fetch-size: 100
+  kafka:
+    bootstrap-servers: localhost:9092
+
+prefix:
+  api: "/api/v1"
