@@ -68,6 +68,11 @@
             <artifactId>spring-kafka-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.apache.avro</groupId>
+            <artifactId>avro</artifactId>
+            <version>1.11.4</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -108,7 +113,7 @@
                         </goals>
                         <configuration>
                             <sourceDirectory>${project.basedir}/src/main/resources/schemas/</sourceDirectory>
-                            <outputDirectory>${project.basedir}src/main/java/</outputDirectory>
+                            <outputDirectory>${project.basedir}/src/main/java/</outputDirectory>
                             <enableDecimalLogicalType>true</enableDecimalLogicalType>
                             <stringType>String</stringType>
                             <createSetters>true</createSetters>

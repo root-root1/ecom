@@ -1,10 +1,10 @@
 {
   "type": "record",
-  "name": "OrderCreated",
+  "name": "OrderCreate",
   "namespace": "com.social.ecom.order.avro",
   "fields": [
-    {"name": "orderId", "type": "string"},
-    {"name": "customerId", "type": "string"},
+    {"name": "orderId", "type": "int"},
+    {"name": "customerId", "type": "int"},
     {
       "name": "items",
       "type": {
@@ -13,7 +13,7 @@
           "type": "record",
           "name": "OrderItem",
           "fields": [
-            {"name": "itemId", "type": "string"},
+            {"name": "productId", "type": "int"},
             {"name": "quantity", "type": "int"},
             {"name": "price", "type": "float"}
           ]

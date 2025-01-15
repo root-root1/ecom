@@ -21,8 +21,8 @@ public class OrderRepository {
         @Override
         public Order mapRow(ResultSet rs, int rowNum) throws SQLException {
             Order order = new Order();
-            order.setOrderId(rs.getString("order_id"));
-            order.setCustomerId(rs.getString("customer_id"));
+            order.setOrderId(rs.getInt("order_id"));
+            order.setCustomerId(rs.getInt("customer_id"));
             order.setTotalAmount(rs.getDouble("total_amount"));
             order.setOrderDate(rs.getString("order_date"));
             order.setStatus(rs.getString("status"));
@@ -45,7 +45,7 @@ public class OrderRepository {
         try {
             String sql = "select * from order where order_id = ?";
             return jdbcTemplate.queryForObject(sql, orderRowMapper, orderId);
-        } catch (ResourceNotFoundException e) {
+        } catch (DataAccessException e) {
             throw new ResourceNotFoundException("Order not found");
         }
     }
