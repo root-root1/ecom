@@ -3,7 +3,6 @@
   "name": "CreateCustomer",
   "namespace": "com.social.ecom.customer.avro",
   "fields": [
-    {"name": "customerId", "type": "int"},
     {"name": "firstName", "type": "string"},
     {"name": "lastName", "type": "string"},
     {"name": "email", "type": "string"},

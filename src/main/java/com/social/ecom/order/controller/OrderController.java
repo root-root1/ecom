@@ -9,14 +9,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("${prefix.api}/orders")
 public class OrderController {
 
-    private final String TOPIC = "log";
-
-
-
+    private final String TOPIC = "order-log";
     @Autowired
     private OrderService orderService;
 
@@ -35,4 +34,9 @@ public class OrderController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse(e.getMessage(), null));
         }
     }
+
+//    @GetMapping("/list")
+//    public ResponseEntity<ApiResponse> getOrdersList() {
+//        List<Order> orders = orderService.
+//    }
 }

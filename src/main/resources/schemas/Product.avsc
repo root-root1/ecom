@@ -1,0 +1,11 @@
+{
+  "type": "record",
+  "name": "CreateProduct",
+  "namespace": "com.social.ecom.products.avro",
+  "fields": [
+    {"name": "name", "type": "string"},
+    {"name": "description", "type": "string"},
+    {"name": "price", "type": "float"},
+    {"name": "stock_quantity", "type": "int"}
+  ]
+}

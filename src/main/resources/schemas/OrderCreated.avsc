@@ -3,7 +3,6 @@
   "name": "OrderCreate",
   "namespace": "com.social.ecom.order.avro",
   "fields": [
-    {"name": "orderId", "type": "int"},
     {"name": "customerId", "type": "int"},
     {
       "name": "items",
@@ -20,8 +19,6 @@
         }
       }
     },
-    {"name": "totalAmount", "type": "float"},
-    {"name": "orderDate", "type": "string"},
-    {"name": "status", "type": "string"}
+    {"name": "totalAmount", "type": "float"}
   ]
 }

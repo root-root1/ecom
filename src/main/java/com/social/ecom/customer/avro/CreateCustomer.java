@@ -14,8 +14,8 @@ import org.apache.avro.message.SchemaStore;
 
 @org.apache.avro.specific.AvroGenerated
 public class CreateCustomer extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
-  private static final long serialVersionUID = 959390918604346770L;
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"CreateCustomer\",\"namespace\":\"com.social.ecom.customer.avro\",\"fields\":[{\"name\":\"customerId\",\"type\":\"int\"},{\"name\":\"firstName\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"lastName\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"email\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"phone\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"address\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}}]}");
+  private static final long serialVersionUID = 7943597742224870064L;
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"CreateCustomer\",\"namespace\":\"com.social.ecom.customer.avro\",\"fields\":[{\"name\":\"firstName\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"lastName\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"email\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"phone\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"address\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
 
   private static SpecificData MODEL$ = new SpecificData();
@@ -71,7 +71,6 @@ public class CreateCustomer extends org.apache.avro.specific.SpecificRecordBase 
     return DECODER.decode(b);
   }
 
-  @Deprecated public int customerId;
   @Deprecated public java.lang.String firstName;
   @Deprecated public java.lang.String lastName;
   @Deprecated public java.lang.String email;
@@ -87,15 +86,13 @@ public class CreateCustomer extends org.apache.avro.specific.SpecificRecordBase 
 
   /**
    * All-args constructor.
-   * @param customerId The new value for customerId
    * @param firstName The new value for firstName
    * @param lastName The new value for lastName
    * @param email The new value for email
    * @param phone The new value for phone
    * @param address The new value for address
    */
-  public CreateCustomer(java.lang.Integer customerId, java.lang.String firstName, java.lang.String lastName, java.lang.String email, java.lang.String phone, java.lang.String address) {
-    this.customerId = customerId;
+  public CreateCustomer(java.lang.String firstName, java.lang.String lastName, java.lang.String email, java.lang.String phone, java.lang.String address) {
     this.firstName = firstName;
     this.lastName = lastName;
     this.email = email;
@@ -108,12 +105,11 @@ public class CreateCustomer extends org.apache.avro.specific.SpecificRecordBase 
   // Used by DatumWriter.  Applications should not call.
   public java.lang.Object get(int field$) {
     switch (field$) {
-    case 0: return customerId;
-    case 1: return firstName;
-    case 2: return lastName;
-    case 3: return email;
-    case 4: return phone;
-    case 5: return address;
+    case 0: return firstName;
+    case 1: return lastName;
+    case 2: return email;
+    case 3: return phone;
+    case 4: return address;
     default: throw new org.apache.avro.AvroRuntimeException("Bad index");
     }
   }
@@ -122,31 +118,13 @@ public class CreateCustomer extends org.apache.avro.specific.SpecificRecordBase 
   @SuppressWarnings(value="unchecked")
   public void put(int field$, java.lang.Object value$) {
     switch (field$) {
-    case 0: customerId = (java.lang.Integer)value$; break;
-    case 1: firstName = value$ != null ? value$.toString() : null; break;
-    case 2: lastName = value$ != null ? value$.toString() : null; break;
-    case 3: email = value$ != null ? value$.toString() : null; break;
-    case 4: phone = value$ != null ? value$.toString() : null; break;
-    case 5: address = value$ != null ? value$.toString() : null; break;
+    case 0: firstName = value$ != null ? value$.toString() : null; break;
+    case 1: lastName = value$ != null ? value$.toString() : null; break;
+    case 2: email = value$ != null ? value$.toString() : null; break;
+    case 3: phone = value$ != null ? value$.toString() : null; break;
+    case 4: address = value$ != null ? value$.toString() : null; break;
     default: throw new org.apache.avro.AvroRuntimeException("Bad index");
     }
-  }
-
-  /**
-   * Gets the value of the 'customerId' field.
-   * @return The value of the 'customerId' field.
-   */
-  public int getCustomerId() {
-    return customerId;
-  }
-
-
-  /**
-   * Sets the value of the 'customerId' field.
-   * @param value the value to set.
-   */
-  public void setCustomerId(int value) {
-    this.customerId = value;
   }
 
   /**
@@ -275,7 +253,6 @@ public class CreateCustomer extends org.apache.avro.specific.SpecificRecordBase 
   public static class Builder extends org.apache.avro.specific.SpecificRecordBuilderBase<CreateCustomer>
     implements org.apache.avro.data.RecordBuilder<CreateCustomer> {
 
-    private int customerId;
     private java.lang.String firstName;
     private java.lang.String lastName;
     private java.lang.String email;
@@ -293,29 +270,25 @@ public class CreateCustomer extends org.apache.avro.specific.SpecificRecordBase 
      */
     private Builder(com.social.ecom.customer.avro.CreateCustomer.Builder other) {
       super(other);
-      if (isValidValue(fields()[0], other.customerId)) {
-        this.customerId = data().deepCopy(fields()[0].schema(), other.customerId);
+      if (isValidValue(fields()[0], other.firstName)) {
+        this.firstName = data().deepCopy(fields()[0].schema(), other.firstName);
         fieldSetFlags()[0] = other.fieldSetFlags()[0];
       }
-      if (isValidValue(fields()[1], other.firstName)) {
-        this.firstName = data().deepCopy(fields()[1].schema(), other.firstName);
+      if (isValidValue(fields()[1], other.lastName)) {
+        this.lastName = data().deepCopy(fields()[1].schema(), other.lastName);
         fieldSetFlags()[1] = other.fieldSetFlags()[1];
       }
-      if (isValidValue(fields()[2], other.lastName)) {
-        this.lastName = data().deepCopy(fields()[2].schema(), other.lastName);
+      if (isValidValue(fields()[2], other.email)) {
+        this.email = data().deepCopy(fields()[2].schema(), other.email);
         fieldSetFlags()[2] = other.fieldSetFlags()[2];
       }
-      if (isValidValue(fields()[3], other.email)) {
-        this.email = data().deepCopy(fields()[3].schema(), other.email);
+      if (isValidValue(fields()[3], other.phone)) {
+        this.phone = data().deepCopy(fields()[3].schema(), other.phone);
         fieldSetFlags()[3] = other.fieldSetFlags()[3];
       }
-      if (isValidValue(fields()[4], other.phone)) {
-        this.phone = data().deepCopy(fields()[4].schema(), other.phone);
+      if (isValidValue(fields()[4], other.address)) {
+        this.address = data().deepCopy(fields()[4].schema(), other.address);
         fieldSetFlags()[4] = other.fieldSetFlags()[4];
-      }
-      if (isValidValue(fields()[5], other.address)) {
-        this.address = data().deepCopy(fields()[5].schema(), other.address);
-        fieldSetFlags()[5] = other.fieldSetFlags()[5];
       }
     }
 
@@ -325,69 +298,26 @@ public class CreateCustomer extends org.apache.avro.specific.SpecificRecordBase 
      */
     private Builder(com.social.ecom.customer.avro.CreateCustomer other) {
       super(SCHEMA$);
-      if (isValidValue(fields()[0], other.customerId)) {
-        this.customerId = data().deepCopy(fields()[0].schema(), other.customerId);
+      if (isValidValue(fields()[0], other.firstName)) {
+        this.firstName = data().deepCopy(fields()[0].schema(), other.firstName);
         fieldSetFlags()[0] = true;
       }
-      if (isValidValue(fields()[1], other.firstName)) {
-        this.firstName = data().deepCopy(fields()[1].schema(), other.firstName);
+      if (isValidValue(fields()[1], other.lastName)) {
+        this.lastName = data().deepCopy(fields()[1].schema(), other.lastName);
         fieldSetFlags()[1] = true;
       }
-      if (isValidValue(fields()[2], other.lastName)) {
-        this.lastName = data().deepCopy(fields()[2].schema(), other.lastName);
+      if (isValidValue(fields()[2], other.email)) {
+        this.email = data().deepCopy(fields()[2].schema(), other.email);
         fieldSetFlags()[2] = true;
       }
-      if (isValidValue(fields()[3], other.email)) {
-        this.email = data().deepCopy(fields()[3].schema(), other.email);
+      if (isValidValue(fields()[3], other.phone)) {
+        this.phone = data().deepCopy(fields()[3].schema(), other.phone);
         fieldSetFlags()[3] = true;
       }
-      if (isValidValue(fields()[4], other.phone)) {
-        this.phone = data().deepCopy(fields()[4].schema(), other.phone);
+      if (isValidValue(fields()[4], other.address)) {
+        this.address = data().deepCopy(fields()[4].schema(), other.address);
         fieldSetFlags()[4] = true;
       }
-      if (isValidValue(fields()[5], other.address)) {
-        this.address = data().deepCopy(fields()[5].schema(), other.address);
-        fieldSetFlags()[5] = true;
-      }
-    }
-
-    /**
-      * Gets the value of the 'customerId' field.
-      * @return The value.
-      */
-    public int getCustomerId() {
-      return customerId;
-    }
-
-
-    /**
-      * Sets the value of the 'customerId' field.
-      * @param value The value of 'customerId'.
-      * @return This builder.
-      */
-    public com.social.ecom.customer.avro.CreateCustomer.Builder setCustomerId(int value) {
-      validate(fields()[0], value);
-      this.customerId = value;
-      fieldSetFlags()[0] = true;
-      return this;
-    }
-
-    /**
-      * Checks whether the 'customerId' field has been set.
-      * @return True if the 'customerId' field has been set, false otherwise.
-      */
-    public boolean hasCustomerId() {
-      return fieldSetFlags()[0];
-    }
-
-
-    /**
-      * Clears the value of the 'customerId' field.
-      * @return This builder.
-      */
-    public com.social.ecom.customer.avro.CreateCustomer.Builder clearCustomerId() {
-      fieldSetFlags()[0] = false;
-      return this;
     }
 
     /**
@@ -405,9 +335,9 @@ public class CreateCustomer extends org.apache.avro.specific.SpecificRecordBase 
       * @return This builder.
       */
     public com.social.ecom.customer.avro.CreateCustomer.Builder setFirstName(java.lang.String value) {
-      validate(fields()[1], value);
+      validate(fields()[0], value);
       this.firstName = value;
-      fieldSetFlags()[1] = true;
+      fieldSetFlags()[0] = true;
       return this;
     }
 
@@ -416,7 +346,7 @@ public class CreateCustomer extends org.apache.avro.specific.SpecificRecordBase 
       * @return True if the 'firstName' field has been set, false otherwise.
       */
     public boolean hasFirstName() {
-      return fieldSetFlags()[1];
+      return fieldSetFlags()[0];
     }
 
 
@@ -426,7 +356,7 @@ public class CreateCustomer extends org.apache.avro.specific.SpecificRecordBase 
       */
     public com.social.ecom.customer.avro.CreateCustomer.Builder clearFirstName() {
       firstName = null;
-      fieldSetFlags()[1] = false;
+      fieldSetFlags()[0] = false;
       return this;
     }
 
@@ -445,9 +375,9 @@ public class CreateCustomer extends org.apache.avro.specific.SpecificRecordBase 
       * @return This builder.
       */
     public com.social.ecom.customer.avro.CreateCustomer.Builder setLastName(java.lang.String value) {
-      validate(fields()[2], value);
+      validate(fields()[1], value);
       this.lastName = value;
-      fieldSetFlags()[2] = true;
+      fieldSetFlags()[1] = true;
       return this;
     }
 
@@ -456,7 +386,7 @@ public class CreateCustomer extends org.apache.avro.specific.SpecificRecordBase 
       * @return True if the 'lastName' field has been set, false otherwise.
       */
     public boolean hasLastName() {
-      return fieldSetFlags()[2];
+      return fieldSetFlags()[1];
     }
 
 
@@ -466,7 +396,7 @@ public class CreateCustomer extends org.apache.avro.specific.SpecificRecordBase 
       */
     public com.social.ecom.customer.avro.CreateCustomer.Builder clearLastName() {
       lastName = null;
-      fieldSetFlags()[2] = false;
+      fieldSetFlags()[1] = false;
       return this;
     }
 
@@ -485,9 +415,9 @@ public class CreateCustomer extends org.apache.avro.specific.SpecificRecordBase 
       * @return This builder.
       */
     public com.social.ecom.customer.avro.CreateCustomer.Builder setEmail(java.lang.String value) {
-      validate(fields()[3], value);
+      validate(fields()[2], value);
       this.email = value;
-      fieldSetFlags()[3] = true;
+      fieldSetFlags()[2] = true;
       return this;
     }
 
@@ -496,7 +426,7 @@ public class CreateCustomer extends org.apache.avro.specific.SpecificRecordBase 
       * @return True if the 'email' field has been set, false otherwise.
       */
     public boolean hasEmail() {
-      return fieldSetFlags()[3];
+      return fieldSetFlags()[2];
     }
 
 
@@ -506,7 +436,7 @@ public class CreateCustomer extends org.apache.avro.specific.SpecificRecordBase 
       */
     public com.social.ecom.customer.avro.CreateCustomer.Builder clearEmail() {
       email = null;
-      fieldSetFlags()[3] = false;
+      fieldSetFlags()[2] = false;
       return this;
     }
 
@@ -525,9 +455,9 @@ public class CreateCustomer extends org.apache.avro.specific.SpecificRecordBase 
       * @return This builder.
       */
     public com.social.ecom.customer.avro.CreateCustomer.Builder setPhone(java.lang.String value) {
-      validate(fields()[4], value);
+      validate(fields()[3], value);
       this.phone = value;
-      fieldSetFlags()[4] = true;
+      fieldSetFlags()[3] = true;
       return this;
     }
 
@@ -536,7 +466,7 @@ public class CreateCustomer extends org.apache.avro.specific.SpecificRecordBase 
       * @return True if the 'phone' field has been set, false otherwise.
       */
     public boolean hasPhone() {
-      return fieldSetFlags()[4];
+      return fieldSetFlags()[3];
     }
 
 
@@ -546,7 +476,7 @@ public class CreateCustomer extends org.apache.avro.specific.SpecificRecordBase 
       */
     public com.social.ecom.customer.avro.CreateCustomer.Builder clearPhone() {
       phone = null;
-      fieldSetFlags()[4] = false;
+      fieldSetFlags()[3] = false;
       return this;
     }
 
@@ -565,9 +495,9 @@ public class CreateCustomer extends org.apache.avro.specific.SpecificRecordBase 
       * @return This builder.
       */
     public com.social.ecom.customer.avro.CreateCustomer.Builder setAddress(java.lang.String value) {
-      validate(fields()[5], value);
+      validate(fields()[4], value);
       this.address = value;
-      fieldSetFlags()[5] = true;
+      fieldSetFlags()[4] = true;
       return this;
     }
 
@@ -576,7 +506,7 @@ public class CreateCustomer extends org.apache.avro.specific.SpecificRecordBase 
       * @return True if the 'address' field has been set, false otherwise.
       */
     public boolean hasAddress() {
-      return fieldSetFlags()[5];
+      return fieldSetFlags()[4];
     }
 
 
@@ -586,7 +516,7 @@ public class CreateCustomer extends org.apache.avro.specific.SpecificRecordBase 
       */
     public com.social.ecom.customer.avro.CreateCustomer.Builder clearAddress() {
       address = null;
-      fieldSetFlags()[5] = false;
+      fieldSetFlags()[4] = false;
       return this;
     }
 
@@ -595,12 +525,11 @@ public class CreateCustomer extends org.apache.avro.specific.SpecificRecordBase 
     public CreateCustomer build() {
       try {
         CreateCustomer record = new CreateCustomer();
-        record.customerId = fieldSetFlags()[0] ? this.customerId : (java.lang.Integer) defaultValue(fields()[0]);
-        record.firstName = fieldSetFlags()[1] ? this.firstName : (java.lang.String) defaultValue(fields()[1]);
-        record.lastName = fieldSetFlags()[2] ? this.lastName : (java.lang.String) defaultValue(fields()[2]);
-        record.email = fieldSetFlags()[3] ? this.email : (java.lang.String) defaultValue(fields()[3]);
-        record.phone = fieldSetFlags()[4] ? this.phone : (java.lang.String) defaultValue(fields()[4]);
-        record.address = fieldSetFlags()[5] ? this.address : (java.lang.String) defaultValue(fields()[5]);
+        record.firstName = fieldSetFlags()[0] ? this.firstName : (java.lang.String) defaultValue(fields()[0]);
+        record.lastName = fieldSetFlags()[1] ? this.lastName : (java.lang.String) defaultValue(fields()[1]);
+        record.email = fieldSetFlags()[2] ? this.email : (java.lang.String) defaultValue(fields()[2]);
+        record.phone = fieldSetFlags()[3] ? this.phone : (java.lang.String) defaultValue(fields()[3]);
+        record.address = fieldSetFlags()[4] ? this.address : (java.lang.String) defaultValue(fields()[4]);
         return record;
       } catch (org.apache.avro.AvroMissingFieldException e) {
         throw e;
@@ -633,8 +562,6 @@ public class CreateCustomer extends org.apache.avro.specific.SpecificRecordBase 
   @Override public void customEncode(org.apache.avro.io.Encoder out)
     throws java.io.IOException
   {
-    out.writeInt(this.customerId);
-
     out.writeString(this.firstName);
 
     out.writeString(this.lastName);
@@ -652,8 +579,6 @@ public class CreateCustomer extends org.apache.avro.specific.SpecificRecordBase 
   {
     org.apache.avro.Schema.Field[] fieldOrder = in.readFieldOrderIfDiff();
     if (fieldOrder == null) {
-      this.customerId = in.readInt();
-
       this.firstName = in.readString();
 
       this.lastName = in.readString();
@@ -665,29 +590,25 @@ public class CreateCustomer extends org.apache.avro.specific.SpecificRecordBase 
       this.address = in.readString();
 
     } else {
-      for (int i = 0; i < 6; i++) {
+      for (int i = 0; i < 5; i++) {
         switch (fieldOrder[i].pos()) {
         case 0:
-          this.customerId = in.readInt();
-          break;
-
-        case 1:
           this.firstName = in.readString();
           break;
 
-        case 2:
+        case 1:
           this.lastName = in.readString();
           break;
 
-        case 3:
+        case 2:
           this.email = in.readString();
           break;
 
-        case 4:
+        case 3:
           this.phone = in.readString();
           break;
 
-        case 5:
+        case 4:
           this.address = in.readString();
           break;
 

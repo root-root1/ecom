@@ -8,8 +8,10 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
@@ -21,7 +23,7 @@ public class OrderRepository {
         @Override
         public Order mapRow(ResultSet rs, int rowNum) throws SQLException {
             Order order = new Order();
-            order.setOrderId(rs.getInt("order_id"));
+            order.setOrderId(rs.getLong("order_id"));
             order.setCustomerId(rs.getInt("customer_id"));
             order.setTotalAmount(rs.getDouble("total_amount"));
             order.setOrderDate(rs.getString("order_date"));
@@ -31,14 +33,27 @@ public class OrderRepository {
     };
 
     public void saveOrder(Order order) {
-        String sql = "insert into order (order_id, customer_id, total_amount, order_date, status) VALUES (?, ?, ?, ?, ?)";
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        String sql = "insert into order (customer_id, total_amount, order_date) VALUES (?, ?, ?, ?, ?)";
         jdbcTemplate.update(
                 sql,
-                order.getOrderId(),
                 order.getCustomerId(),
                 order.getTotalAmount(),
-                order.getOrderDate(),
-                order.getStatus());
+                currentDateTime);
+        Long orderId = jdbcTemplate.queryForObject("SELECT LAST_INSERT_ID()", Long.class);
+        order.setOrderId(orderId);
+
+        List<Order.OrderItem> orderItems = order.getItems();
+//        for (Order.OrderItem orderItem : orderItems) {
+            String orderItemSql = "insert into order_item (order_id, product_id, quantity, price) values (?,?,?,?);";
+//            jdbcTemplate.update(orderItemSql, order.getOrderId(), orderItem.getProductId(), orderItem.getQuantity(), orderItem.getPrice());
+//        }
+        jdbcTemplate.batchUpdate(orderItemSql, orderItems, orderItems.size(), (ps, orderItem) -> {
+            ps.setLong(1, orderId);
+            ps.setLong(2, orderItem.getProductId());
+            ps.setInt(3, orderItem.getQuantity());
+            ps.setBigDecimal(4, BigDecimal.valueOf(orderItem.getPrice()));
+        });
     }
 
     public Order getOrderById(int orderId) {

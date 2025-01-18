@@ -15,7 +15,7 @@ public class Order implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    private int orderId;
+    private Long orderId;
     private int customerId;
     private List<OrderItem> items;
     private double totalAmount;
@@ -26,6 +26,7 @@ public class Order implements Serializable {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class OrderItem implements Serializable {
+        @Serial
         private static final long serialVersionUID = 2L;
 
         private int productId;

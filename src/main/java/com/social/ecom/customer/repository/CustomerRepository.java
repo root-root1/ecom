@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -41,12 +42,14 @@ public class CustomerRepository {
 
     public CustomerModel getCustomerById(int customerId) {
         try {
-            String sql = "select * from customers where customer_id = ?";
+            String sql = "SELECT * FROM customers WHERE customer_id = ?";
             return jdbcTemplate.queryForObject(sql, customerRowMapper, customerId);
+        } catch (EmptyResultDataAccessException e) {
+            logger.error("No customer found with ID: {}", customerId, e);
+            throw new ResourceNotFoundException("Customer not found with ID: " + customerId);
         } catch (DataAccessException e) {
-            logger.error(e.getMessage());
-            throw new ResourceNotFoundException("Customer not found");
-
+            logger.error("Database error occurred while fetching customer with ID: {}", customerId, e);
+            throw new RuntimeException("An unexpected error occurred while fetching customer details");
         }
     }
     public List<CustomerModel> getCustomerList() {
@@ -55,8 +58,7 @@ public class CustomerRepository {
             return jdbcTemplate.query(sql, customerRowMapper);
         } catch (DataAccessException e) {
             logger.error(e.getMessage());
-            throw new ResourceNotFoundException("Database error");
-
+            throw new ResourceNotFoundException("Failed to get customer list");
         }
     }
 }

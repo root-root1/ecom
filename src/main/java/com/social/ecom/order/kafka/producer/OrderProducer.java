@@ -1,5 +1,6 @@
 package com.social.ecom.order.kafka.producer;
 
+import com.social.ecom.common.utils.Utils;
 import com.social.ecom.order.avro.OrderCreate;
 import com.social.ecom.order.model.Order.OrderItem;
 import com.social.ecom.order.model.Order;
@@ -21,43 +22,36 @@ public class OrderProducer {
     private static final String TOPIC = "order";
 
     @Autowired
-    private KafkaTemplate<Integer, byte[]> kafkaTemplate;
+    private KafkaTemplate<String, byte[]> kafkaTemplate;
 
     public void sendOrder(Order order) {
-        try {
-            OrderCreate orderValue = buildOrder(order);
-            byte[] orderEventValue = orderValue.toByteBuffer().array();
-            ProducerRecord<Integer, byte[]> record = new ProducerRecord<>(TOPIC, order.getOrderId(), orderEventValue);
+        OrderCreate orderValue = buildOrder(order);
+        byte[] orderEventValue = Utils.serializeAvroObject(orderValue, OrderCreate.class,logger);
+        ProducerRecord<String, byte[]> record = new ProducerRecord<>(TOPIC,Integer.toString(order.getCustomerId()), orderEventValue);
 
-            record.headers().add("source", "order-service".getBytes());
-            record.headers().add("timestamp",
-                    String.valueOf(System.currentTimeMillis()).getBytes());
+        record.headers().add("source", "order-service".getBytes());
+        record.headers().add("timestamp",
+                String.valueOf(System.currentTimeMillis()).getBytes());
 
-            kafkaTemplate.send(record).whenComplete((sendResult, exception) -> {
-                if (exception != null) {
-                    logger.error("Failed to send order with key {}: {}", order.getOrderId(), exception.getMessage(), exception);
-                } else {
-                    logger.info("Order sent successfully to topic {} with key {}. Partition: {}, Offset: {}",
-                            TOPIC, order.getOrderId(),
-                            sendResult.getRecordMetadata().partition(),
-                            sendResult.getRecordMetadata().offset());
-                }
-            });
+        kafkaTemplate.send(record).whenComplete((sendResult, exception) -> {
+            if (exception != null) {
+                logger.error("Failed to send order with key {}: {}", order.getCustomerId(), exception.getMessage(), exception);
+            } else {
+                logger.info("Order sent successfully to topic {} with key {}. Partition: {}, Offset: {}",
+                        TOPIC, order.getCustomerId(),
+                        sendResult.getRecordMetadata().partition(),
+                        sendResult.getRecordMetadata().offset());
+            }
+        });
 
-        } catch (IOException e) {
-            logger.error("Error serializing the order: {}", e.getMessage(), e);
-        }
     }
 
     private OrderCreate buildOrder(Order order) {
         ArrayList<com.social.ecom.order.avro.OrderItem> avroOrderItems = getOrderItems(order);
         return OrderCreate.newBuilder()
-                .setOrderId(order.getOrderId())
                 .setCustomerId(order.getCustomerId())
                 .setItems(avroOrderItems)
                 .setTotalAmount(((float) order.getTotalAmount()))
-                .setOrderDate(order.getOrderDate())
-                .setStatus(order.getStatus())
                 .build();
     }
 

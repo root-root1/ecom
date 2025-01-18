@@ -9,8 +9,17 @@ spring:
   jdbc:
     template:
       fetch-size: 100
+  devtools:
+    restart:
+      enable: false
+      additional-exclude: "**/com/social/ecom/customer/avro/**"
   kafka:
     bootstrap-servers: localhost:9092
+    schema:
+      registry:
+        url: http://localhost:8081
+    consumer:
+      bootstrap-servers: localhost:9092
 
 prefix:
   api: "/api/v1"
