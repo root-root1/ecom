@@ -4,6 +4,9 @@ import com.social.ecom.order.avro.OrderCreate;
 import com.social.ecom.order.avro.OrderItem;
 import com.social.ecom.order.model.Order;
 import com.social.ecom.order.repository.OrderRepository;
+import org.apache.avro.io.DatumReader;
+import org.apache.avro.io.DecoderFactory;
+import org.apache.avro.specific.SpecificDatumReader;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,7 +16,6 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 import com.social.ecom.common.utils.Utils;
@@ -39,10 +41,11 @@ public class OrderConsumer {
         try {
             OrderCreate createOrder = decodeOrderRecord(record.value());
             Order order = new Order();
-
             List<Order.OrderItem> items = createOrderItem(createOrder);
             order.setTotalAmount(createOrder.getTotalAmount());
             order.setCustomerId(createOrder.getCustomerId());
+            order.setOrderDate(createOrder.getOrderDate());
+            order.setStatus(createOrder.getStatus());
             order.setItems(items);
 
             orderRepository.saveOrder(order);
@@ -65,7 +68,8 @@ public class OrderConsumer {
     }
 
     private static OrderCreate decodeOrderRecord(byte[] order) throws IOException {
-        return OrderCreate.fromByteBuffer(ByteBuffer.wrap(order));
+        DatumReader<OrderCreate> reader = new SpecificDatumReader<>(OrderCreate.class);
+        return reader.read(null, DecoderFactory.get().binaryDecoder(order,null));
     }
 
     private static ArrayList<Order.OrderItem> createOrderItem(OrderCreate order) {

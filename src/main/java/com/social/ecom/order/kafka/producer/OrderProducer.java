@@ -11,9 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.social.ecom.common.utils.Utils.getCurrentOrderDate;
 
 @Component
 public class OrderProducer {
@@ -25,7 +26,14 @@ public class OrderProducer {
     private KafkaTemplate<String, byte[]> kafkaTemplate;
 
     public void sendOrder(Order order) {
+        String orderDate = getCurrentOrderDate();
         OrderCreate orderValue = buildOrder(order);
+
+        orderValue.setStatus("PENDING");
+        orderValue.setOrderDate(orderDate);
+
+        logger.info("Value to kafka {}", orderValue.toString());
+
         byte[] orderEventValue = Utils.serializeAvroObject(orderValue, OrderCreate.class,logger);
         ProducerRecord<String, byte[]> record = new ProducerRecord<>(TOPIC,Integer.toString(order.getCustomerId()), orderEventValue);
 

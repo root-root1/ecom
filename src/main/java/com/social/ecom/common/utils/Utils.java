@@ -1,6 +1,5 @@
 package com.social.ecom.common.utils;
 
-import com.social.ecom.customer.avro.CreateCustomer;
 import org.apache.avro.io.BinaryEncoder;
 import org.apache.avro.io.DatumWriter;
 import org.apache.avro.io.EncoderFactory;
@@ -9,6 +8,8 @@ import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.slf4j.Logger;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -39,6 +40,11 @@ public class Utils {
         }
     }
 
+    public static String getCurrentOrderDate() {
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        return now.format(formatter);
+    }
     public static <T> byte[] serializeAvroObject(T data, Class<T> clazz, Logger logger) {
         try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
             DatumWriter<T> writer = new SpecificDatumWriter<>(clazz);

@@ -14,8 +14,8 @@ import org.apache.avro.message.SchemaStore;
 
 @org.apache.avro.specific.AvroGenerated
 public class OrderCreate extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
-  private static final long serialVersionUID = -1633113776277874061L;
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"OrderCreate\",\"namespace\":\"com.social.ecom.order.avro\",\"fields\":[{\"name\":\"customerId\",\"type\":\"int\"},{\"name\":\"items\",\"type\":{\"type\":\"array\",\"items\":{\"type\":\"record\",\"name\":\"OrderItem\",\"fields\":[{\"name\":\"productId\",\"type\":\"int\"},{\"name\":\"quantity\",\"type\":\"int\"},{\"name\":\"price\",\"type\":\"float\"}]}}},{\"name\":\"totalAmount\",\"type\":\"float\"}]}");
+  private static final long serialVersionUID = 3884518951291480743L;
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"OrderCreate\",\"namespace\":\"com.social.ecom.order.avro\",\"fields\":[{\"name\":\"customerId\",\"type\":\"int\"},{\"name\":\"items\",\"type\":{\"type\":\"array\",\"items\":{\"type\":\"record\",\"name\":\"OrderItem\",\"fields\":[{\"name\":\"productId\",\"type\":\"int\"},{\"name\":\"quantity\",\"type\":\"int\"},{\"name\":\"price\",\"type\":\"float\"}]}}},{\"name\":\"totalAmount\",\"type\":\"float\"},{\"name\":\"orderDate\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"},\"default\":\"\"},{\"name\":\"status\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"},\"default\":\"\"}]}");
   public static org.apache.avro.Schema getClassSchema() { return SCHEMA$; }
 
   private static SpecificData MODEL$ = new SpecificData();
@@ -74,6 +74,8 @@ public class OrderCreate extends org.apache.avro.specific.SpecificRecordBase imp
   @Deprecated public int customerId;
   @Deprecated public java.util.List<com.social.ecom.order.avro.OrderItem> items;
   @Deprecated public float totalAmount;
+  @Deprecated public java.lang.String orderDate;
+  @Deprecated public java.lang.String status;
 
   /**
    * Default constructor.  Note that this does not initialize fields
@@ -87,11 +89,15 @@ public class OrderCreate extends org.apache.avro.specific.SpecificRecordBase imp
    * @param customerId The new value for customerId
    * @param items The new value for items
    * @param totalAmount The new value for totalAmount
+   * @param orderDate The new value for orderDate
+   * @param status The new value for status
    */
-  public OrderCreate(java.lang.Integer customerId, java.util.List<com.social.ecom.order.avro.OrderItem> items, java.lang.Float totalAmount) {
+  public OrderCreate(java.lang.Integer customerId, java.util.List<com.social.ecom.order.avro.OrderItem> items, java.lang.Float totalAmount, java.lang.String orderDate, java.lang.String status) {
     this.customerId = customerId;
     this.items = items;
     this.totalAmount = totalAmount;
+    this.orderDate = orderDate;
+    this.status = status;
   }
 
   public org.apache.avro.specific.SpecificData getSpecificData() { return MODEL$; }
@@ -102,6 +108,8 @@ public class OrderCreate extends org.apache.avro.specific.SpecificRecordBase imp
     case 0: return customerId;
     case 1: return items;
     case 2: return totalAmount;
+    case 3: return orderDate;
+    case 4: return status;
     default: throw new org.apache.avro.AvroRuntimeException("Bad index");
     }
   }
@@ -113,6 +121,8 @@ public class OrderCreate extends org.apache.avro.specific.SpecificRecordBase imp
     case 0: customerId = (java.lang.Integer)value$; break;
     case 1: items = (java.util.List<com.social.ecom.order.avro.OrderItem>)value$; break;
     case 2: totalAmount = (java.lang.Float)value$; break;
+    case 3: orderDate = value$ != null ? value$.toString() : null; break;
+    case 4: status = value$ != null ? value$.toString() : null; break;
     default: throw new org.apache.avro.AvroRuntimeException("Bad index");
     }
   }
@@ -169,6 +179,40 @@ public class OrderCreate extends org.apache.avro.specific.SpecificRecordBase imp
   }
 
   /**
+   * Gets the value of the 'orderDate' field.
+   * @return The value of the 'orderDate' field.
+   */
+  public java.lang.String getOrderDate() {
+    return orderDate;
+  }
+
+
+  /**
+   * Sets the value of the 'orderDate' field.
+   * @param value the value to set.
+   */
+  public void setOrderDate(java.lang.String value) {
+    this.orderDate = value;
+  }
+
+  /**
+   * Gets the value of the 'status' field.
+   * @return The value of the 'status' field.
+   */
+  public java.lang.String getStatus() {
+    return status;
+  }
+
+
+  /**
+   * Sets the value of the 'status' field.
+   * @param value the value to set.
+   */
+  public void setStatus(java.lang.String value) {
+    this.status = value;
+  }
+
+  /**
    * Creates a new OrderCreate RecordBuilder.
    * @return A new OrderCreate RecordBuilder
    */
@@ -212,6 +256,8 @@ public class OrderCreate extends org.apache.avro.specific.SpecificRecordBase imp
     private int customerId;
     private java.util.List<com.social.ecom.order.avro.OrderItem> items;
     private float totalAmount;
+    private java.lang.String orderDate;
+    private java.lang.String status;
 
     /** Creates a new Builder */
     private Builder() {
@@ -236,6 +282,14 @@ public class OrderCreate extends org.apache.avro.specific.SpecificRecordBase imp
         this.totalAmount = data().deepCopy(fields()[2].schema(), other.totalAmount);
         fieldSetFlags()[2] = other.fieldSetFlags()[2];
       }
+      if (isValidValue(fields()[3], other.orderDate)) {
+        this.orderDate = data().deepCopy(fields()[3].schema(), other.orderDate);
+        fieldSetFlags()[3] = other.fieldSetFlags()[3];
+      }
+      if (isValidValue(fields()[4], other.status)) {
+        this.status = data().deepCopy(fields()[4].schema(), other.status);
+        fieldSetFlags()[4] = other.fieldSetFlags()[4];
+      }
     }
 
     /**
@@ -255,6 +309,14 @@ public class OrderCreate extends org.apache.avro.specific.SpecificRecordBase imp
       if (isValidValue(fields()[2], other.totalAmount)) {
         this.totalAmount = data().deepCopy(fields()[2].schema(), other.totalAmount);
         fieldSetFlags()[2] = true;
+      }
+      if (isValidValue(fields()[3], other.orderDate)) {
+        this.orderDate = data().deepCopy(fields()[3].schema(), other.orderDate);
+        fieldSetFlags()[3] = true;
+      }
+      if (isValidValue(fields()[4], other.status)) {
+        this.status = data().deepCopy(fields()[4].schema(), other.status);
+        fieldSetFlags()[4] = true;
       }
     }
 
@@ -376,6 +438,86 @@ public class OrderCreate extends org.apache.avro.specific.SpecificRecordBase imp
       return this;
     }
 
+    /**
+      * Gets the value of the 'orderDate' field.
+      * @return The value.
+      */
+    public java.lang.String getOrderDate() {
+      return orderDate;
+    }
+
+
+    /**
+      * Sets the value of the 'orderDate' field.
+      * @param value The value of 'orderDate'.
+      * @return This builder.
+      */
+    public com.social.ecom.order.avro.OrderCreate.Builder setOrderDate(java.lang.String value) {
+      validate(fields()[3], value);
+      this.orderDate = value;
+      fieldSetFlags()[3] = true;
+      return this;
+    }
+
+    /**
+      * Checks whether the 'orderDate' field has been set.
+      * @return True if the 'orderDate' field has been set, false otherwise.
+      */
+    public boolean hasOrderDate() {
+      return fieldSetFlags()[3];
+    }
+
+
+    /**
+      * Clears the value of the 'orderDate' field.
+      * @return This builder.
+      */
+    public com.social.ecom.order.avro.OrderCreate.Builder clearOrderDate() {
+      orderDate = null;
+      fieldSetFlags()[3] = false;
+      return this;
+    }
+
+    /**
+      * Gets the value of the 'status' field.
+      * @return The value.
+      */
+    public java.lang.String getStatus() {
+      return status;
+    }
+
+
+    /**
+      * Sets the value of the 'status' field.
+      * @param value The value of 'status'.
+      * @return This builder.
+      */
+    public com.social.ecom.order.avro.OrderCreate.Builder setStatus(java.lang.String value) {
+      validate(fields()[4], value);
+      this.status = value;
+      fieldSetFlags()[4] = true;
+      return this;
+    }
+
+    /**
+      * Checks whether the 'status' field has been set.
+      * @return True if the 'status' field has been set, false otherwise.
+      */
+    public boolean hasStatus() {
+      return fieldSetFlags()[4];
+    }
+
+
+    /**
+      * Clears the value of the 'status' field.
+      * @return This builder.
+      */
+    public com.social.ecom.order.avro.OrderCreate.Builder clearStatus() {
+      status = null;
+      fieldSetFlags()[4] = false;
+      return this;
+    }
+
     @Override
     @SuppressWarnings("unchecked")
     public OrderCreate build() {
@@ -384,6 +526,8 @@ public class OrderCreate extends org.apache.avro.specific.SpecificRecordBase imp
         record.customerId = fieldSetFlags()[0] ? this.customerId : (java.lang.Integer) defaultValue(fields()[0]);
         record.items = fieldSetFlags()[1] ? this.items : (java.util.List<com.social.ecom.order.avro.OrderItem>) defaultValue(fields()[1]);
         record.totalAmount = fieldSetFlags()[2] ? this.totalAmount : (java.lang.Float) defaultValue(fields()[2]);
+        record.orderDate = fieldSetFlags()[3] ? this.orderDate : (java.lang.String) defaultValue(fields()[3]);
+        record.status = fieldSetFlags()[4] ? this.status : (java.lang.String) defaultValue(fields()[4]);
         return record;
       } catch (org.apache.avro.AvroMissingFieldException e) {
         throw e;
@@ -433,6 +577,10 @@ public class OrderCreate extends org.apache.avro.specific.SpecificRecordBase imp
 
     out.writeFloat(this.totalAmount);
 
+    out.writeString(this.orderDate);
+
+    out.writeString(this.status);
+
   }
 
   @Override public void customDecode(org.apache.avro.io.ResolvingDecoder in)
@@ -462,8 +610,12 @@ public class OrderCreate extends org.apache.avro.specific.SpecificRecordBase imp
 
       this.totalAmount = in.readFloat();
 
+      this.orderDate = in.readString();
+
+      this.status = in.readString();
+
     } else {
-      for (int i = 0; i < 3; i++) {
+      for (int i = 0; i < 5; i++) {
         switch (fieldOrder[i].pos()) {
         case 0:
           this.customerId = in.readInt();
@@ -491,6 +643,14 @@ public class OrderCreate extends org.apache.avro.specific.SpecificRecordBase imp
 
         case 2:
           this.totalAmount = in.readFloat();
+          break;
+
+        case 3:
+          this.orderDate = in.readString();
+          break;
+
+        case 4:
+          this.status = in.readString();
           break;
 
         default:

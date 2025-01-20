@@ -6,48 +6,52 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.time.LocalDateTime;
+import java.sql.PreparedStatement;
+import java.sql.Statement;
 import java.util.List;
+import java.util.Objects;
 
 @Repository
 public class OrderRepository {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    private final RowMapper<Order> orderRowMapper = new RowMapper<Order>() {
-        @Override
-        public Order mapRow(ResultSet rs, int rowNum) throws SQLException {
-            Order order = new Order();
-            order.setOrderId(rs.getLong("order_id"));
-            order.setCustomerId(rs.getInt("customer_id"));
-            order.setTotalAmount(rs.getDouble("total_amount"));
-            order.setOrderDate(rs.getString("order_date"));
-            order.setStatus(rs.getString("status"));
-            return order;
-        }
+    private final RowMapper<Order> orderRowMapper = (rs, rowNum) -> {
+        Order order = new Order();
+        order.setOrderId(rs.getLong("order_id"));
+        order.setCustomerId(rs.getInt("customer_id"));
+        order.setTotalAmount(rs.getDouble("total_amount"));
+        order.setOrderDate(rs.getString("order_date"));
+        order.setStatus(rs.getString("status"));
+        return order;
     };
 
     public void saveOrder(Order order) {
-        LocalDateTime currentDateTime = LocalDateTime.now();
-        String sql = "insert into order (customer_id, total_amount, order_date) VALUES (?, ?, ?, ?, ?)";
-        jdbcTemplate.update(
-                sql,
-                order.getCustomerId(),
-                order.getTotalAmount(),
-                currentDateTime);
-        Long orderId = jdbcTemplate.queryForObject("SELECT LAST_INSERT_ID()", Long.class);
+        // First insert the order
+        String sql = "INSERT INTO orders (customer_id, order_date, status) VALUES (?, ?, ?)";
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+
+        jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ps.setLong(1, order.getCustomerId());
+            ps.setString(2, order.getOrderDate());
+            ps.setString(3, order.getStatus());
+            return ps;
+        }, keyHolder);
+
+        // Get the generated order ID
+        long orderId = Objects.requireNonNull(keyHolder.getKey()).longValue();
         order.setOrderId(orderId);
 
+        // Insert order items using batch update
         List<Order.OrderItem> orderItems = order.getItems();
-//        for (Order.OrderItem orderItem : orderItems) {
-            String orderItemSql = "insert into order_item (order_id, product_id, quantity, price) values (?,?,?,?);";
-//            jdbcTemplate.update(orderItemSql, order.getOrderId(), orderItem.getProductId(), orderItem.getQuantity(), orderItem.getPrice());
-//        }
+        String orderItemSql = "INSERT INTO order_items (order_id, product_id, quantity, price) VALUES (?, ?, ?, ?)";
+
         jdbcTemplate.batchUpdate(orderItemSql, orderItems, orderItems.size(), (ps, orderItem) -> {
             ps.setLong(1, orderId);
             ps.setLong(2, orderItem.getProductId());
@@ -56,19 +60,17 @@ public class OrderRepository {
         });
     }
 
-    public Order getOrderById(int orderId) {
+    public Order getOrderById(long orderId) {
         try {
-            String sql = "select * from order where order_id = ?";
+            String sql = "SELECT * FROM orders WHERE order_id = ?";
             return jdbcTemplate.queryForObject(sql, orderRowMapper, orderId);
         } catch (DataAccessException e) {
-            throw new ResourceNotFoundException("Order not found");
+            throw new ResourceNotFoundException("Order not found with id: " + orderId);
         }
     }
 
     public List<Order> getOrders() {
-        String sql = "select * from order";
+        String sql = "SELECT * FROM orders";
         return jdbcTemplate.query(sql, orderRowMapper);
     }
-
-
 }

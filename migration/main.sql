@@ -12,7 +12,7 @@ CREATE TABLE customers (
 CREATE TABLE orders (
     order_id SERIAL PRIMARY KEY,
     customer_id INT REFERENCES customers(customer_id),
-    total_amount DECIMAL(10, 2),
+    total_amount DECIMAL(10, 2) default 0,
     order_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     status VARCHAR(50) DEFAULT 'PENDING',  -- E.g., PENDING, COMPLETED, CANCELED
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

@@ -19,6 +19,8 @@
         }
       }
     },
-    {"name": "totalAmount", "type": "float"}
+    {"name": "totalAmount", "type": "float"},
+    {"name": "orderDate", "type": "string", "default": ""},
+    {"name": "status", "type": "string", "default": ""}
   ]
 }
