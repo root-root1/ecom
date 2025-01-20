@@ -12,7 +12,12 @@ import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Objects;
 
@@ -21,25 +26,43 @@ public class OrderRepository {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
     private final RowMapper<Order> orderRowMapper = (rs, rowNum) -> {
         Order order = new Order();
         order.setOrderId(rs.getLong("order_id"));
         order.setCustomerId(rs.getInt("customer_id"));
         order.setTotalAmount(rs.getDouble("total_amount"));
-        order.setOrderDate(rs.getString("order_date"));
+        // Convert timestamp to string when reading from database
+        Timestamp orderDate = rs.getTimestamp("order_date");
+        order.setOrderDate(orderDate != null ? orderDate.toLocalDateTime().format(DATE_FORMATTER) : null);
         order.setStatus(rs.getString("status"));
         return order;
     };
 
     public void saveOrder(Order order) {
         // First insert the order
-        String sql = "INSERT INTO orders (customer_id, order_date, status) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO orders (customer_id, order_date, status) VALUES (?, ?, ?) returning order_id";
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
         jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setLong(1, order.getCustomerId());
-            ps.setString(2, order.getOrderDate());
+
+            // Convert string date to timestamp
+            String orderDateStr = order.getOrderDate();
+            if (orderDateStr != null) {
+                try {
+                    LocalDateTime orderDate = LocalDateTime.parse(orderDateStr, DATE_FORMATTER);
+                    ps.setTimestamp(2, Timestamp.valueOf(orderDate));
+                } catch (Exception e) {
+                    // If parsing fails, use current timestamp as fallback
+                    ps.setTimestamp(2, Timestamp.valueOf(LocalDateTime.now()));
+                }
+            } else {
+                ps.setTimestamp(2, Timestamp.valueOf(LocalDateTime.now()));
+            }
+
             ps.setString(3, order.getStatus());
             return ps;
         }, keyHolder);
